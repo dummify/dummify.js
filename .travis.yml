@@ -1,6 +1,11 @@
 language: node_js
 
 env:
+  DATABASE_HOST: 127.0.0.1
+  DATABASE_USER: root
+  DATABASE_PASS:
+  DATABASE_PORT: 3306
+  DATABASE_SCHEMA: example
 
 matrix:
   fast_finish: true
@@ -21,7 +26,6 @@ before_install:
 
 install:
   - npm i
-  - npm i -g mocha
 
 script:
   - mocha
