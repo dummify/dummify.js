@@ -6,6 +6,7 @@ env:
   DATABASE_PASS:
   DATABASE_PORT: 3306
   DATABASE_SCHEMA: example
+  DOCKER_COMPOSE_VERSION: 1.16.1
 
 matrix:
   fast_finish: true
@@ -21,11 +22,21 @@ services:
   - mysql
 
 before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS `example`;'
-  - mysql -e 'CREATE TABLE `example`.`users` (`id` INT NOT NULL AUTO_INCREMENT, `name` VARCHAR(100) NULL, `email` VARCHAR(40) NULL, `password` VARCHAR(128) NULL, PRIMARY KEY (`id`));'
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+  - docker -v
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - docker-compose -v
 
 install:
   - npm i
+
+before_script:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS `example`;'
+  - mysql -e 'CREATE TABLE `example`.`users` (`id` INT NOT NULL AUTO_INCREMENT, `name` VARCHAR(100) NULL, `email` VARCHAR(40) NULL, `password` VARCHAR(128) NULL, PRIMARY KEY (`id`));'
 
 script:
   - mocha
