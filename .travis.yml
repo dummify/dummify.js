@@ -1,0 +1,27 @@
+language: node_js
+
+env:
+
+matrix:
+  fast_finish: true
+  include:
+    - node_js: '8'
+    - node_js: '7'
+    - node_js: '6'
+    - node_js: '4'
+
+sudo: false
+
+services:
+  - mysql
+
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS `example`;'
+  - mysql -e 'CREATE TABLE `example`.`users` (`id` INT NOT NULL AUTO_INCREMENT, `name` VARCHAR(100) NULL, `email` VARCHAR(40) NULL, `password` VARCHAR(128) NULL, PRIMARY KEY (`id`));'
+
+install:
+  - npm i
+  - npm i -g mocha
+
+script:
+  - mocha

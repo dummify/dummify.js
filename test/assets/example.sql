@@ -1,0 +1,5 @@
+-- CREATE USER 'admin'@'%' IDENTIFIED BY 'password';
+-- GRANT ALL PRIVILEGES ON \*.\* TO 'admin'@'%' WITH GRANT OPTION;
+-- FLUSH PRIVILEGES;
+
+CREATE TABLE `example`.`users` (`id` INT NOT NULL AUTO_INCREMENT, `name` VARCHAR(100) NULL, `email` VARCHAR(40) NULL, `password` VARCHAR(128) NULL, PRIMARY KEY (`id`));
