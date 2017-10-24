@@ -1,0 +1,25 @@
+{
+  "name": "dummify.js",
+  "version": "0.1.0",
+  "description": "Dummify your database just listing tables and columns!",
+  "main": "index.js",
+  "repository": "unknown",
+  "author": "Filipe Forattini",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "co": "^4.6.0",
+    "faker": "^4.1.0",
+    "meow": "^3.7.0",
+    "mysql": "^2.14.1"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^4.0.1",
+    "unexpected": "^10.36.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
+}
