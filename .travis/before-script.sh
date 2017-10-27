@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
-rm .env
-cp .env.example .env
+
+if [ ! -f .env ]; then
+    echo "Generating .env file."
+    cp .env.example .env
+fi
 
 docker-compose down -v
 docker-compose up -d
@@ -8,7 +11,7 @@ docker-compose ps
 
 until nc -z -v -w30 172.1.1.1 3306
 do
-    sleep 2
+    sleep 1
 done
 
 docker-compose exec mysql mysql -e "SOURCE initial.sql"
