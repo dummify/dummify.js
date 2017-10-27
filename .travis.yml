@@ -14,7 +14,8 @@ matrix:
     - node_js: '4'
 
 services:
-
+  - docker
+  
 cache: yarn
 
 before_install: .travis/before-install.sh
