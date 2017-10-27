@@ -1,12 +1,9 @@
 language: node_js
 
 env:
-  DATABASE_HOST: 127.0.0.1
-  DATABASE_USER: root
-  DATABASE_PASS:
-  DATABASE_PORT: 3306
-  DATABASE_SCHEMA: example
   DOCKER_COMPOSE_VERSION: 1.16.1
+
+sudo: false
 
 matrix:
   fast_finish: true
@@ -16,27 +13,17 @@ matrix:
     - node_js: '6'
     - node_js: '4'
 
-sudo: false
-
 services:
-  - mysql
 
-before_install:
-  - sudo apt-get update
-  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
-  - docker -v
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
-  - docker-compose -v
+cache: yarn
 
-install:
-  - npm i
+before_install: .travis/before-install.sh
 
-before_script:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS `example`;'
-  - mysql -e 'CREATE TABLE `example`.`users` (`id` INT NOT NULL AUTO_INCREMENT, `name` VARCHAR(100) NULL, `email` VARCHAR(40) NULL, `password` VARCHAR(128) NULL, PRIMARY KEY (`id`));'
+install: .travis/install.sh
 
-script:
-  - mocha
+before_script: .travis/before-script.sh
+
+script: .travis/script.sh
+
+notifications:
+  email: false

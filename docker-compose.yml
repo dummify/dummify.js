@@ -1,0 +1,32 @@
+version: "3"
+
+networks: 
+  dummify:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.1.0.0/16
+      driver: default
+
+volumes:
+  mysql: {}
+
+services:
+
+  mysql:
+    image: mysql:latest
+    container_name: dummify-mysql
+    volumes:
+      - ./.travis/:/dummify
+      - mysql:/var/lib/mysql
+    working_dir: /dummify
+    restart: always
+    networks:
+      dummify:
+        ipv4_address: 172.1.1.1
+    expose:
+      - 3306
+    environment:
+      MYSQL_DATABASE: example
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
